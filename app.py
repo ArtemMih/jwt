@@ -38,10 +38,13 @@ def protected():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
+    username = request.form.get("username", "lol")
+    password = request.form.get("password", "lol")
+    print(username)
+    print(password)
     # auth = request.authorization    
-    if data['username'] == 'fuckradyan' and data['password'] == 'poop123':
-        token = jwt.encode({'user' : data['username'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=40)}, app.config['SECRET_KEY'])
+    if username == "1" and password == "1":
+        token = jwt.encode({'user' : username, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=40)}, app.config['SECRET_KEY'])
         return jsonify({'token' : token.decode('UTF-8')})    
     return make_response('Could not verify!',401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
