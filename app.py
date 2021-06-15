@@ -1,18 +1,18 @@
 from flask import Flask, jsonify, request, make_response
+import base64
 import jwt
 import datetime
-import base64
 from functools import wraps
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'secretkey'
+app.config['SECRET_KEY'] = 'Very Secret'
 
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.args.get('token')
         if not token:
-            return jsonify({'message' : 'TOKEN IS MISSING'}), 403
+            return jsonify({'message' : 'There is no token'}), 403
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
         except:
@@ -31,7 +31,7 @@ def unprotected():
 @app.route('/protected')
 @token_required
 def protected():
-    with open("obama.jpg", "rb") as image_file:
+    with open("Secret_logo.jpg", "rb") as image_file:
         message_string = base64.b64encode(image_file.read())
     return jsonify({'img' :  str(message_string.decode('utf-8'))})
 
