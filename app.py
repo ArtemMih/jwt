@@ -23,7 +23,7 @@ def token_required(f):
 
 @app.route('/unprotected')
 def unprotected():
-    return jsonify({'message' : 'Каждый видит это сообщение'})
+    return jsonify({'message' : 'Everybody can see this message'})
 
 
 
@@ -33,7 +33,7 @@ def unprotected():
 def protected():
     with open("obama.jpg", "rb") as image_file:
         message_string = base64.b64encode(image_file.read())
-    return jsonify({'message' : 'Только аутентифицированные пользователи видят это сообщение.','time' : datetime.datetime.now(), 'img' :  str(message_string.decode('utf-8'))})
+    return jsonify({'img' :  str(message_string.decode('utf-8'))})
 
 
 @app.route('/login', methods=['POST'])
